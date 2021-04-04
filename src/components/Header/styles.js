@@ -11,7 +11,7 @@ export const Container = styled.div`
   box-sizing: border-box;
   padding: 0 2rem;
   color: white;
-  background: ${() => theme.gradients.primaryToSecondaryRight};
+  background: ${theme.gradients.primaryToSecondaryRight};
   .logo-title,
   .user-name {
     display: flex;
@@ -25,9 +25,9 @@ export const Container = styled.div`
       justify-content: center;
       border-radius: 80px;
       background: #f3f5f7;
-      color: ${() => theme.colors.tertiary};
+      color: ${theme.colors.tertiary};
       font-weight: bold;
-      font-family: ${() => theme.fonts[0]};
+      font-family: ${theme.fonts[0]};
     }
   }
   .logo-title {

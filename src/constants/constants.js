@@ -9,6 +9,7 @@ export const theme = {
     primaryToSecondaryRight: "linear-gradient(to right, #E71B7B, #611F96)",
     buttonGradient: "linear-gradient(45deg, #803382, #aa397a)",
     primaryToSecondaryBottom: "linear-gradient(to bottom, #BC3E7C, #611F96)",
+    primaryToSecondaryBottomRight: "linear-gradient(145deg, #AF3A7B, #722B80)",
   },
   fonts: ["Roboto", "sans-serif"],
 };

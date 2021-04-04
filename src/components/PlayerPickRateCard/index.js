@@ -3,7 +3,7 @@ import { Container } from "./styles";
 
 const PlayerPickRateCard = () => {
   return (
-    <Container>
+    <Container isRed={false}>
       <div>
         <h2>Most picked player</h2>
         <div className="player-info">

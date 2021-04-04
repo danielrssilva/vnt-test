@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { theme } from "../../constants/constants";
 
 export const Container = styled.div`
-  background: ${() => theme.gradients.primaryToSecondaryBottom};
+  background: ${theme.gradients.primaryToSecondaryBottom};
   display: flex;
   position: relative;
   justify-content: space-between;
@@ -20,7 +20,7 @@ export const Container = styled.div`
     margin: auto;
     width: 1px;
     height: 100%;
-    background: ${() => theme.colors.border}33;
+    background: ${theme.colors.border}55;
     top: 0;
     left: 0;
     bottom: 0;
@@ -36,7 +36,7 @@ export const Container = styled.div`
     left: 0;
     bottom: 0;
     right: 0;
-    border: 1px solid ${() => theme.colors.border}33;
+    border: 1px solid ${theme.colors.border}55;
   }
   .player-info {
     display: flex;
@@ -58,7 +58,7 @@ export const Container = styled.div`
     background-color: #ffffff;
     color: #353535;
     box-shadow: 0 0 0 2px #a40862;
-    box-shadow: 0 0 7px 0 ${() => theme.colors.primary};
+    box-shadow: 0 0 7px 0 ${theme.colors.primary};
 
     font-size: 2.5rem;
     font-weight: bold;

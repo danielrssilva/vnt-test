@@ -8,7 +8,10 @@ const TeamAverageCard = ({ title, teams }) => {
       <TeamsCard>
         {teams?.map((team) => {
           return (
-            <TeamRow highlight={team.avg === "31.9" || team.avg === "21.6"}>
+            <TeamRow
+              key={team.id}
+              highlight={team.avg === "31.9" || team.avg === "21.6"}
+            >
               <div>{team.name}</div>
               <div className="team-avg">{team.avg}</div>
             </TeamRow>
