@@ -11,6 +11,7 @@ export const Container = styled.div`
   border-radius: 5px;
   padding: 1rem;
   flex: 1;
+  height: 600px;
   .divider {
     position: absolute;
     margin: auto;
@@ -70,4 +71,5 @@ export const Row = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1;
+  flex-wrap: wrap;
 `;

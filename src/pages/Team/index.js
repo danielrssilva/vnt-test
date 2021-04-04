@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "../../components/Card";
 import FormationCard from "../../components/FormationCard";
 import PlayerCard from "../../components/PlayerCard";
+import TagsInput from "../../components/TagsInput";
 import { Container, Title, Column, Row, Select } from "./styles";
 
 const Team = () => {
@@ -84,22 +85,28 @@ const Team = () => {
                 <textarea id="description" name="w3review" />
               </div>
               <div>
-                <label className="input-label">Team type</label>
-                <div className="radio-div">
-                  <input
-                    type="radio"
-                    id="real"
-                    name="type"
-                    value="real"
-                  ></input>
-                  <label for="real">Real</label>
-                  <input
-                    type="radio"
-                    id="fantasy"
-                    name="type"
-                    value="fantasy"
-                  ></input>
-                  <label for="fantasy">Fantasy</label>
+                <div className="tags-div">
+                  <label className="input-label">Team type</label>
+                  <div className="radio-div">
+                    <input
+                      type="radio"
+                      id="real"
+                      name="type"
+                      value="real"
+                    ></input>
+                    <label for="real">Real</label>
+                    <input
+                      type="radio"
+                      id="fantasy"
+                      name="type"
+                      value="fantasy"
+                    ></input>
+                    <label for="fantasy">Fantasy</label>
+                  </div>
+                </div>
+                <div>
+                  <label className="input-label">Tags</label>
+                  <TagsInput></TagsInput>
                 </div>
               </div>
             </Row>

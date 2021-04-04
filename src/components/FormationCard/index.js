@@ -6,30 +6,37 @@ const FormationCard = ({ formation }) => {
     let formationArray = formation.split("-").map((e) => {
       return e.trim();
     });
-    let rows = [];
     formationArray.reverse();
+    let rows = [];
     formationArray.map((e) => {
       let row = [];
-      if (e % 2 === 0 && e !== "2") {
-        for (let i = 1; i < e; i++) {
-          row.push(Circle(`circle-${i}`));
-        }
-        rows.push(<Row>{Circle("circle-offset")}</Row>);
-      } else {
-        for (let i = 0; i < e; i++) {
-          row.push(Circle("circle-offset"));
-        }
+      // if (e % 2 === 0 && e !== "2") {
+      //   for (let i = 1; i < e; i++) {
+      //     row.push(
+      //       <CircleContainer key={`circle-${i}`}>
+      //         <span>+</span>
+      //       </CircleContainer>
+      //     );
+      //   }
+      //   rows.push(
+      //     <Row>
+      //       <CircleContainer key={`circle-offset`}>
+      //         <span>+</span>
+      //       </CircleContainer>
+      //     </Row>
+      //   );
+      // } else {
+      for (let i = 0; i < e; i++) {
+        row.push(
+          <CircleContainer key={`circle-offset`}>
+            <span>+</span>
+          </CircleContainer>
+        );
+        // }
       }
       rows.push(<Row>{row}</Row>);
     });
     return rows;
-  };
-  const Circle = (key) => {
-    return (
-      <CircleContainer key={key}>
-        <span>+</span>
-      </CircleContainer>
-    );
   };
   return (
     <Container>

@@ -40,6 +40,10 @@ export const Row = styled.div`
     flex: 1;
     padding: 0 4%;
     box-sizing: border-box;
+    justify-content: space-between;
+    .tags-div {
+      margin-top: 3rem;
+    }
     &.error {
       label {
         color: #c50341;
@@ -82,11 +86,17 @@ export const Row = styled.div`
     display: flex;
     flex-direction: row;
     padding: 0;
+    label {
+      margin-right: 2rem;
+    }
   }
   input[type="radio"] {
     height: 15px;
     width: 15px;
-    margin-right: 10px;
+    margin-right: 5px;
+  }
+  .player-list {
+    justify-content: flex-start;
   }
 `;
 
