@@ -12,6 +12,7 @@ export const Container = styled.div`
   margin-top: 1rem;
   padding: 1rem 2rem;
   box-sizing: border-box;
+  cursor: grab;
   div {
     display: flex;
     flex-direction: row !important;

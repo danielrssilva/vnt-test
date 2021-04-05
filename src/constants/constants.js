@@ -13,3 +13,12 @@ export const theme = {
   },
   fonts: ["Roboto", "sans-serif"],
 };
+
+export const formations = [
+  "3 - 4 - 3",
+  "4 - 1 - 3 - 2",
+  "4 - 2 - 3 - 1",
+  "4 - 2 - 4",
+  "4 - 3 - 2 - 1",
+  "5 - 3 - 2",
+];

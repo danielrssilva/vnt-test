@@ -5,19 +5,16 @@ import { Container } from "./styles";
 import { IoMdClose } from "react-icons/io";
 
 const InputTag = () => {
-  const [tags, setTags] = useState(["Tags", "Input"]);
+  const [tags, setTags] = useState([]);
   const [value, setValue] = useState("");
 
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const removeTag = (i) => {
-    console.log(i);
     const newTags = tags;
-    console.log(newTags);
     newTags.splice(i, 1);
     setTags(newTags);
-    console.log(newTags);
     forceUpdate();
   };
 

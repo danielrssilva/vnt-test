@@ -34,6 +34,9 @@ export const Row = styled.div`
   justify-content: space-evenly;
   flex: 1;
   flex-wrap: wrap;
+  &.fomation-div {
+    align-items: flex-start;
+  }
   > div {
     display: flex;
     flex-direction: column;

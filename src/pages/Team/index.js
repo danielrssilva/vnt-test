@@ -1,31 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../components/Card";
 import FormationCard from "../../components/FormationCard";
 import PlayerCard from "../../components/PlayerCard";
 import TagsInput from "../../components/TagsInput";
 import { Container, Title, Column, Row, Select } from "./styles";
+import api from "../../services/api";
+import { formations } from "../../constants/constants";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 const Team = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [renderSearchResults, setRenderSearchResults] = useState(false);
-  const players = [
-    { id: 0, name: "Cristiano Ronaldo", age: "32", nacionality: "Portugal" },
-    { id: 1, name: "Ronaldo Luiz de Alves", age: "28", nacionality: "Brazil" },
-  ];
+  const [players, setPlayers] = useState([]);
   const [formation, setFormation] = useState("3 - 4 - 3");
+
+  useEffect(() => {
+    async function loadPlayers() {
+      let response = await api.get(``);
+      setPlayers(response.data.result[0].players);
+    }
+    loadPlayers();
+  }, []);
+
   const handleSearch = (searchValue) => {
     let value;
     if (searchValue !== undefined)
       value = searchValue.toLowerCase().replace(/\s+/g, " ").trim();
     const searchResult = players.filter((player) => {
-      if (player.name.toLowerCase().includes(value)) return player;
-      if (player.age.toLowerCase().includes(value)) return player;
-      if (player.nacionality.toLowerCase().includes(value)) return player;
+      if (player.player_name.toLowerCase().includes(value)) return player;
+      if (player.player_age.toLowerCase().includes(value)) return player;
+      if (player.player_country.toLowerCase().includes(value)) return player;
     });
     setSearchResults(searchResult);
     if (value !== undefined || value === "") setRenderSearchResults(true);
     else setRenderSearchResults(false);
   };
+
+  const handleSubmit = () => {
+    console.log("submit");
+  };
+
   function renderResults() {
     if (searchResults.length !== 0) {
       const playersComponent = searchResults.map((player) => (
@@ -40,7 +55,7 @@ const Team = () => {
     );
   }
 
-  function renderCommunities() {
+  function renderPlayers() {
     if (players) {
       const playersComponent = players.map((player) => (
         <PlayerCard className="player-card" player={player} key={player.id} />
@@ -113,44 +128,43 @@ const Team = () => {
           </Column>
         </section>
         <Title>Configure squad</Title>
-        <section>
-          <Column>
-            <Row>
-              <div>
-                <label className="input-label">
-                  Formation
-                  <Select
-                    name="formations"
-                    id="formations"
-                    onChange={({ target }) => setFormation(target.value)}
-                  >
-                    <option value="3 - 4 - 3">3 - 4 - 3</option>
-                    <option value="4 - 1 - 3 - 2">4 - 1 - 3 - 2</option>
-                    <option value="4 - 2 - 3 - 1">4 - 2 - 3 - 1</option>
-                    <option value="4 - 2 - 4">4 - 2 - 4</option>
-                    <option value="4 - 3 - 2 - 1">4 - 3 - 2 - 1</option>
-                    <option value="5 - 3 - 2">5 - 3 - 2</option>
-                  </Select>
-                </label>
-                <FormationCard formation={formation} />
-                <button>Save</button>
-              </div>
-              <div className="player-list">
-                <label className="input-label" for="players">
-                  Search Players
-                </label>
-                <input
-                  id="players"
-                  type="text"
-                  placeholder="Insert player name"
-                  onChange={({ target }) => handleSearch(target.value)}
-                />
-                {!renderSearchResults && renderCommunities()}
-                {renderSearchResults && renderResults()}
-              </div>
-            </Row>
-          </Column>
-        </section>
+        <DndProvider backend={HTML5Backend}>
+          <section>
+            <Column>
+              <Row className="fomation-div">
+                <div>
+                  <label className="input-label">
+                    Formation
+                    <Select
+                      name="formations"
+                      id="formations"
+                      onChange={({ target }) => setFormation(target.value)}
+                    >
+                      {formations.map((formation) => {
+                        return <option value={formation} key={formation}>{formation}</option>;
+                      })}
+                    </Select>
+                  </label>
+                  <FormationCard formation={formation} />
+                  <button onClick={() => handleSubmit()}>Save</button>
+                </div>
+                <div className="player-list">
+                  <label className="input-label" for="players">
+                    Search Players
+                  </label>
+                  <input
+                    id="players"
+                    type="text"
+                    placeholder="Insert player name"
+                    onChange={({ target }) => handleSearch(target.value)}
+                  />
+                  {!renderSearchResults && renderPlayers()}
+                  {renderSearchResults && renderResults()}
+                </div>
+              </Row>
+            </Column>
+          </section>
+        </DndProvider>
       </Card>
     </Container>
   );
