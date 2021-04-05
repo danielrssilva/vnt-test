@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container } from "./styles";
 
 import { IoMdClose } from "react-icons/io";
 
-const InputTag = () => {
+const InputTag = ({ teamTags, updateTeamTags }) => {
   const [tags, setTags] = useState([]);
   const [value, setValue] = useState("");
 
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
-
+  useEffect(() => {
+    if (teamTags) setTags(teamTags);
+  });
   const removeTag = (i) => {
     const newTags = tags;
     newTags.splice(i, 1);
     setTags(newTags);
+    updateTeamTags(newTags, { name: "tags" });
     forceUpdate();
   };
 
@@ -27,6 +30,7 @@ const InputTag = () => {
       let newTags = tags;
       newTags.push(val);
       setTags(newTags);
+      updateTeamTags(newTags, { name: "tags" });
       setValue("");
     } else if (e.key === "Backspace" && !val) {
       removeTag(tags.length - 1);

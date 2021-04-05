@@ -7,7 +7,6 @@ export const CardContainer = styled.div`
   border-radius: 10px;
   flex: 1;
   margin: 0 2rem 2rem 2rem;
-  padding-bottom: 6rem;
   .inner-card {
     display: flex;
     justify-content: space-evenly;

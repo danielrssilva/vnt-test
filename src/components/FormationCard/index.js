@@ -1,53 +1,8 @@
-import React, { useState } from "react";
-import { Container, CircleContainer, Row } from "./styles";
-import { useDrop } from "react-dnd";
-const DropTarget = (config, id) => {
-  const [name, setName] = useState();
-  const [player, setPlayer] = useState();
-  const changeItem = (item) => {
-    setPlayer(item);
-    let name = item.player_name;
-    let rgx = new RegExp(/(\p{L}{1})\p{L}+/, "gu");
-    let initials = [...name?.matchAll(rgx)] || [];
-    initials = (
-      (initials.shift()?.[1] || "") + (initials.pop()?.[1] || "")
-    ).toUpperCase();
-    setName(initials);
-  };
-  const [{ isOver }, drop] = useDrop({
-    accept: "player",
-    drop: (item) => changeItem(item),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
-  const handleClick = (e) => {
-    e.preventDefault();
-    setName();
-  };
-
-  return (
-    <>
-      <CircleContainer
-        key={`circle-${config}-${id}`}
-        ref={drop}
-        hasName={name ? true : false}
-        onDoubleClick={(e) => handleClick(e)}
-        onContextMenu={(e) => handleClick(e)}
-        title={player?.player_name}
-      >
-        <span
-          style={{
-            boxShadow: isOver ? "0 0 10px 0 #552C8A" : "",
-          }}
-        >
-          {name ? name : "+"}
-        </span>
-      </CircleContainer>
-    </>
-  );
-};
-const FormationCard = ({ formation }) => {
+import React from "react";
+import { Container, Row } from "./styles";
+import PlayerPosition from "../PlayerPosition";
+const FormationCard = ({ formation, addPlayer, removePlayer, players }) => {
+  let playerId = 0;
   const renderRows = () => {
     let formationArray = formation.split("-").map((e) => {
       return e.trim();
@@ -56,17 +11,34 @@ const FormationCard = ({ formation }) => {
     let rows = [];
     formationArray.map((e) => {
       let row = [];
-      for (let i = 0; i < e; i++) {
-        row.push(DropTarget(e, i));
+      for (let i = 1; i <= e; i++) {
+        let currentPlayer = {};
+        playerId++;
+        if (players[playerId]) currentPlayer = players[playerId];
+        row.push(
+          <PlayerPosition
+            id={playerId}
+            addPlayer={addPlayer}
+            removePlayer={removePlayer}
+            currPlayer={currentPlayer}
+          />
+        );
       }
-      rows.push(<Row>{row}</Row>);
+      rows.push(<Row key={`${e}-${playerId}`}>{row}</Row>);
     });
     return rows;
   };
   return (
     <Container>
       {renderRows()}
-      <Row>{DropTarget("keeper", "0")}</Row>
+      <Row>
+        <PlayerPosition
+          id={0}
+          addPlayer={addPlayer}
+          removePlayer={removePlayer}
+          currPlayer={players[0] || {}}
+        />
+      </Row>
       <div className="divider" />
       <div className="divider-circle" />
     </Container>

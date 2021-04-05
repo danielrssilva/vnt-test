@@ -34,7 +34,7 @@ export const Row = styled.div`
   justify-content: space-evenly;
   flex: 1;
   flex-wrap: wrap;
-  &.fomation-div {
+  &.formation-div {
     align-items: flex-start;
   }
   > div {
@@ -47,7 +47,8 @@ export const Row = styled.div`
     .tags-div {
       margin-top: 3rem;
     }
-    &.error {
+    &.error,
+    > div.error {
       label {
         color: #c50341;
       }
@@ -100,6 +101,8 @@ export const Row = styled.div`
   }
   .player-list {
     justify-content: flex-start;
+    max-height: 600px;
+    overflow-y: auto;
   }
 `;
 

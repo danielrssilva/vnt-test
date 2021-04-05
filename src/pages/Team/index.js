@@ -5,15 +5,28 @@ import PlayerCard from "../../components/PlayerCard";
 import TagsInput from "../../components/TagsInput";
 import { Container, Title, Column, Row, Select } from "./styles";
 import api from "../../services/api";
-import { formations } from "../../constants/constants";
+import { getTeams, addTeam, opdateTeam } from "../../services/session";
+import { formations, teamInitializer } from "../../constants/constants";
+import { validateFormFields } from "../../validation/fieldValidation";
+import SuccessBanner from "../../components/SuccessBanner";
+import { useHistory } from "react-router-dom";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-const Team = () => {
+const Team = ({ location }) => {
+  const { teamProps } = location;
+  const history = useHistory();
+  const [team, setTeam] = useState({
+    tags: [],
+    players: teamInitializer,
+  });
   const [searchResults, setSearchResults] = useState([]);
+  const [renderSuccessBanner, setRenderSuccessBanner] = useState(false);
   const [renderSearchResults, setRenderSearchResults] = useState(false);
   const [players, setPlayers] = useState([]);
-  const [formation, setFormation] = useState("3 - 4 - 3");
+  const [formation, setFormation] = useState(
+    `${teamProps?.formation || "3 - 4 - 3"}`
+  );
 
   useEffect(() => {
     async function loadPlayers() {
@@ -21,6 +34,10 @@ const Team = () => {
       setPlayers(response.data.result[0].players);
     }
     loadPlayers();
+    async function loadTeam() {
+      if (teamProps) setTeam(teamProps);
+    }
+    loadTeam();
   }, []);
 
   const handleSearch = (searchValue) => {
@@ -37,11 +54,62 @@ const Team = () => {
     else setRenderSearchResults(false);
   };
 
-  const handleSubmit = () => {
-    console.log("submit");
+  const handleChange = (value, { name }) => {
+    const newTeam = { ...team, [name]: value };
+    document.getElementById(`${name}-div`)?.classList.remove("error");
+    setTeam(newTeam);
   };
 
-  function renderResults() {
+  const handleFormationChange = (value, { name }) => {
+    handleChange(value, { name });
+    setFormation(value);
+  };
+
+  const inputKeyDown = ({ key }) => {
+    if (key === "Enter") handleSubmit();
+  };
+
+  const handleSubmit = () => {
+    let length = 0;
+    if (!JSON.parse(getTeams())?.length) length = 0;
+    else length = JSON.parse(getTeams()).length;
+    let newTeam = {};
+    if (teamProps) newTeam = { ...teamProps, ...team };
+    else newTeam = { ...team, id: length };
+    let sum = 0;
+    let playerCount = 0;
+    newTeam.players?.forEach(({ age }) => {
+      if (age) {
+        playerCount++;
+        sum = sum + parseInt(age);
+      }
+    });
+
+    if (sum === 0 && playerCount === 0) newTeam.avg = "-";
+    else newTeam.avg = (sum / playerCount).toFixed(1);
+    let errors = validateFormFields(team);
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        document.getElementById(error)?.classList.add("error");
+      });
+      return;
+    }
+
+    if (teamProps) opdateTeam(newTeam);
+    else addTeam(newTeam);
+
+    setRenderSuccessBanner(true);
+    document.body.style.overflow = "hidden";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    setTimeout(() => {
+      document.body.style.overflow = "auto";
+      setRenderSuccessBanner(false);
+      history.push("/");
+    }, 1000);
+  };
+
+  const renderResults = () => {
     if (searchResults.length !== 0) {
       const playersComponent = searchResults.map((player) => (
         <PlayerCard className="player-card" player={player} key={player.id} />
@@ -50,12 +118,12 @@ const Team = () => {
     }
     return (
       <div>
-        <Title>No player was found matching this criteria.</Title>
+        <Title>No player was found matching this criteria</Title>
       </div>
     );
-  }
+  };
 
-  function renderPlayers() {
+  const renderPlayers = () => {
     if (players) {
       const playersComponent = players.map((player) => (
         <PlayerCard className="player-card" player={player} key={player.id} />
@@ -67,106 +135,166 @@ const Team = () => {
         <Title>Searching...</Title>
       </div>
     );
-  }
+  };
+  const addPlayer = (player) => {
+    let newPlayers = team.players;
+    newPlayers.splice(player.position, 1, player);
+    setTeam({ ...team, players: newPlayers });
+  };
+  const removePlayer = (player) => {
+    let newPlayers = team.players;
+    newPlayers.splice(player.position, 1, {});
+    setTeam({ ...team, players: newPlayers });
+  };
   return (
-    <Container>
-      <Card title={"Create your team"}>
-        <Title>Team information</Title>
-        <section>
-          <Column>
-            <Row>
-              <div>
-                <label className="input-label" for="name">
-                  Team name
-                </label>
-                <input id="name" type="text" placeholder="Insert team name" />
-              </div>
-              <div>
-                <label className="input-label" for="website">
-                  Team website
-                </label>
-                <input
-                  id="website"
-                  type="text"
-                  placeholder="http://myteam.com"
-                />
-              </div>
-            </Row>
-            <Row>
-              <div>
-                <label className="input-label" for="description">
-                  Description
-                </label>
-                <textarea id="description" name="w3review" />
-              </div>
-              <div>
-                <div className="tags-div">
-                  <label className="input-label">Team type</label>
-                  <div className="radio-div">
-                    <input
-                      type="radio"
-                      id="real"
-                      name="type"
-                      value="real"
-                    ></input>
-                    <label for="real">Real</label>
-                    <input
-                      type="radio"
-                      id="fantasy"
-                      name="type"
-                      value="fantasy"
-                    ></input>
-                    <label for="fantasy">Fantasy</label>
-                  </div>
-                </div>
-                <div>
-                  <label className="input-label">Tags</label>
-                  <TagsInput></TagsInput>
-                </div>
-              </div>
-            </Row>
-          </Column>
-        </section>
-        <Title>Configure squad</Title>
-        <DndProvider backend={HTML5Backend}>
+    <>
+      {renderSuccessBanner && <SuccessBanner />}
+      <Container>
+        <Card title={"Create your team"}>
+          <Title>Team information</Title>
           <section>
             <Column>
-              <Row className="fomation-div">
-                <div>
-                  <label className="input-label">
-                    Formation
-                    <Select
-                      name="formations"
-                      id="formations"
-                      onChange={({ target }) => setFormation(target.value)}
-                    >
-                      {formations.map((formation) => {
-                        return <option value={formation} key={formation}>{formation}</option>;
-                      })}
-                    </Select>
-                  </label>
-                  <FormationCard formation={formation} />
-                  <button onClick={() => handleSubmit()}>Save</button>
-                </div>
-                <div className="player-list">
-                  <label className="input-label" for="players">
-                    Search Players
+              <Row>
+                <div id="name-div">
+                  <label className="input-label" htmlFor="name">
+                    Team name
                   </label>
                   <input
-                    id="players"
+                    id="name"
                     type="text"
-                    placeholder="Insert player name"
-                    onChange={({ target }) => handleSearch(target.value)}
+                    placeholder="Insert team name"
+                    value={team.name}
+                    name="name"
+                    onChange={({ target }) =>
+                      handleChange(target.value, target)
+                    }
+                    onKeyDown={(e) => inputKeyDown(e)}
                   />
-                  {!renderSearchResults && renderPlayers()}
-                  {renderSearchResults && renderResults()}
+                </div>
+                <div id="website-div">
+                  <label className="input-label" htmlFor="website">
+                    Team website
+                  </label>
+                  <input
+                    id="website"
+                    type="text"
+                    placeholder="http://myteam.com"
+                    value={team.website}
+                    name="website"
+                    onChange={({ target }) =>
+                      handleChange(target.value, target)
+                    }
+                    onKeyDown={(e) => inputKeyDown(e)}
+                  />
+                </div>
+              </Row>
+              <Row>
+                <div id="description-div">
+                  <label className="input-label" htmlFor="description">
+                    Description
+                  </label>
+                  <textarea
+                    id="description"
+                    value={team.description}
+                    name="description"
+                    onChange={({ target }) =>
+                      handleChange(target.value, target)
+                    }
+                  />
+                </div>
+                <div>
+                  <div className="tags-div" id="type-div">
+                    <label className="input-label">Team type</label>
+                    <div className="radio-div">
+                      <input
+                        type="radio"
+                        id="real"
+                        name="type"
+                        value="real"
+                        onChange={(e) => handleChange(e.target.value, e.target)}
+                        checked={team.type === "real"}
+                      ></input>
+                      <label htmlFor="real">Real</label>
+                      <input
+                        type="radio"
+                        id="fantasy"
+                        name="type"
+                        value="fantasy"
+                        // onClick={(e) => handleChange(e.target.value, e.target)}
+                        onChange={(e) => handleChange(e.target.value, e.target)}
+                        checked={team.type === "fantasy"}
+                      ></input>
+                      <label htmlFor="fantasy">Fantasy</label>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="input-label">Tags</label>
+                    <TagsInput
+                      teamTags={team.tags}
+                      updateTeamTags={handleChange}
+                    />
+                  </div>
                 </div>
               </Row>
             </Column>
           </section>
-        </DndProvider>
-      </Card>
-    </Container>
+          <Title>Configure squad</Title>
+          <DndProvider backend={HTML5Backend}>
+            <section>
+              <Column>
+                <Row className="formation-div">
+                  <div>
+                    <label className="input-label">
+                      Formation
+                      <Select
+                        name="formation"
+                        id="formation"
+                        onChange={({ target }) =>
+                          handleFormationChange(target.value, target)
+                        }
+                      >
+                        <option hidden value={formation}>
+                          {formation}
+                        </option>
+                        {formations.map((formation) => {
+                          return (
+                            <option value={formation} key={formation}>
+                              {formation}
+                            </option>
+                          );
+                        })}
+                      </Select>
+                    </label>
+                    <FormationCard
+                      formation={formation}
+                      players={team.players}
+                      addPlayer={addPlayer}
+                      removePlayer={removePlayer}
+                    />
+                    <button onClick={() => handleSubmit()}>Save</button>
+                  </div>
+                  <div>
+                    <label className="input-label" htmlFor="players">
+                      Search Players
+                    </label>
+                    <input
+                      id="players"
+                      type="text"
+                      placeholder="Insert player name"
+                      onChange={({ target }) => handleSearch(target.value)}
+                    />
+                    <div className="player-list">
+                      {!renderSearchResults && renderPlayers()}
+                      {renderSearchResults && renderResults()}
+                    </div>
+                  </div>
+                </Row>
+              </Column>
+            </section>
+          </DndProvider>
+        </Card>
+      </Container>
+    </>
   );
 };
 
