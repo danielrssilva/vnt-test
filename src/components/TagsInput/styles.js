@@ -12,6 +12,7 @@ export const Container = styled.div`
     border-radius: 4px;
     padding: 15px;
     min-height: 100px;
+    margin-top: 5px;
   }
 
   .input-tag input {
