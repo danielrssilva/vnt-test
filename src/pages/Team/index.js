@@ -54,6 +54,18 @@ const Team = ({ location }) => {
         });
       }
     }
+    if (teamProps?.players) {
+      teamProps.players.forEach((player) => {
+        if (player?.id)
+          try {
+            setTimeout(() => {
+              document.getElementById(`player-${player.id}`).style.display =
+                "none";
+            }, 100);
+          } catch (err) {}
+      });
+    }
+
     loadTeam();
   }, [teamProps]);
 
@@ -85,6 +97,10 @@ const Team = ({ location }) => {
       ...team,
       players: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
     };
+    let cards = document.getElementsByClassName("player-card");
+    for (let i = 0; i < players.length; i++) {
+      cards[i].style.display = "inline-block";
+    }
     setTeam(newTeam);
     setTeamPlayers([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
     handleChange(value, { name });
@@ -173,13 +189,16 @@ const Team = ({ location }) => {
     if (newPlayers[player.position]?.name) {
       setTimeout(
         () =>
-          (document.getElementById(`player-${newPlayers[player.position].id}`).style.display =
-            "inline-block"),
+          (document.getElementById(
+            `player-${newPlayers[player.position].id}`
+          ).style.display = "inline-block"),
         1
       );
-      document.getElementById(
-        `player-${newPlayers[player.position].id}`
-      ).style.display = "inline-block";
+      try {
+        document.getElementById(
+          `player-${newPlayers[player.position].id}`
+        ).style.display = "inline-block";
+      } catch (err) {}
     }
     newPlayers.splice(player.position, 1, player);
     setTeam({ ...team, players: newPlayers });
