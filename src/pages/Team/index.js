@@ -171,6 +171,12 @@ const Team = ({ location }) => {
   const addPlayer = (player) => {
     let newPlayers = team.players;
     if (newPlayers[player.position]?.name) {
+      setTimeout(
+        () =>
+          (document.getElementById(`player-${newPlayers[player.position].id}`).style.display =
+            "inline-block"),
+        1
+      );
       document.getElementById(
         `player-${newPlayers[player.position].id}`
       ).style.display = "inline-block";
@@ -188,12 +194,13 @@ const Team = ({ location }) => {
     let newPlayers = team.players;
     newPlayers.splice(player.position, 1, {});
     setTeam({ ...team, players: newPlayers });
-    setTimeout(
-      () =>
-        (document.getElementById(`player-${player.id}`).style.display =
-          "inline-block"),
-      1
-    );
+    if (player?.id)
+      setTimeout(
+        () =>
+          (document.getElementById(`player-${player.id}`).style.display =
+            "inline-block"),
+        1
+      );
   };
   return (
     <>

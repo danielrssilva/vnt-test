@@ -10,7 +10,7 @@ const FormationCard = ({ formation, addPlayer, removePlayer, players }) => {
     });
     formationArray.reverse();
     let rows = [];
-    formationArray.map((e) => {
+    formationArray.forEach((e) => {
       let row = [];
       for (let i = 1; i <= e; i++) {
         let currentPlayer = {};
