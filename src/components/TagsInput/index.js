@@ -12,7 +12,7 @@ const InputTag = ({ teamTags, updateTeamTags }) => {
   const forceUpdate = React.useCallback(() => updateState({}), []);
   useEffect(() => {
     if (teamTags) setTags(teamTags);
-  });
+  }, [teamTags]);
   const removeTag = (i) => {
     const newTags = tags;
     newTags.splice(i, 1);
@@ -23,7 +23,7 @@ const InputTag = ({ teamTags, updateTeamTags }) => {
 
   const inputKeyDown = (e) => {
     const val = e.target.value;
-    if (e.key === "Enter" && val) {
+    if ((e.key === "Enter" || e.key === ";") && val) {
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
@@ -38,7 +38,7 @@ const InputTag = ({ teamTags, updateTeamTags }) => {
   };
 
   const handleChange = (value) => {
-    setValue(value);
+    setValue(value.replace(";", ""));
   };
   return (
     <Container>

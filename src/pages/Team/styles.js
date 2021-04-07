@@ -4,7 +4,6 @@ import { theme } from "../../constants/constants";
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 3em 1em;
   flex-wrap: wrap;
   section {
     display: flex;
@@ -66,6 +65,7 @@ export const Row = styled.div`
       padding: 10px;
       color: #ffffff;
       font-weight: bold;
+      margin-bottom: 2rem;
     }
   }
   label.input-label {

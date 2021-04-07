@@ -1,14 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { CardContainer, Header, Title, Button } from "./styles";
-import { useHistory } from "react-router-dom";
 
 const Card = ({ children, title, button }) => {
-  const history = useHistory();
   return (
     <CardContainer>
       <Header>
         <Title>{title}</Title>
-        {button && <Button onClick={() => history.push("/team")}>+</Button>}
+        {button && (
+          <Link
+            to={{
+              pathname: "/team",
+              teamProps: {},
+            }}
+          >
+            <Button> +</Button>
+          </Link>
+        )}
       </Header>
       {children}
     </CardContainer>

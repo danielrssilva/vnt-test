@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { Table, DescriptionRow } from "./styles";
 import { Link } from "react-router-dom";
 
 import { IoMdTrash, IoMdShare } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
-import { removeTeam } from "../../services/session";
 
 const TeamTable = ({ teams, handleDeleteTeam }) => {
   const useSortableData = (items, config = null) => {
-    const [sortConfig, setSortConfig] = React.useState(config);
+    const [sortConfig, setSortConfig] = useState(config);
 
-    const sortedItems = React.useMemo(() => {
+    const sortedItems = useMemo(() => {
       let sortableItems = [...items];
       if (sortConfig !== null) {
+        console.log(sortConfig);
         sortableItems.sort((a, b) => {
           if (a[sortConfig.key] < b[sortConfig.key]) {
             return sortConfig.direction === "ascending" ? -1 : 1;
@@ -38,7 +38,7 @@ const TeamTable = ({ teams, handleDeleteTeam }) => {
       setSortConfig({ key, direction });
     };
 
-    return { items: sortedItems, requestSort };
+    return { items: sortedItems, requestSort, sortConfig };
   };
   const { items, requestSort, sortConfig } = useSortableData(teams);
   const getClassNamesFor = (name) => {
@@ -71,12 +71,12 @@ const TeamTable = ({ teams, handleDeleteTeam }) => {
                 <td>{item.name}</td>
                 <td>
                   <DescriptionRow>
-                    {item.description}
+                    <div>{item.description}</div>
                     <div>
                       <button onClick={() => handleDeleteTeam(item.id)}>
                         <IoMdTrash />
                       </button>
-                      <button>
+                      <button className="disabled" disabled>
                         <IoMdShare />
                       </button>
                       <Link

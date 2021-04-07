@@ -10,4 +10,5 @@ export const Container = styled.div`
   height: 3rem;
   width: 100%;
   background: #e9e3e9;
+  z-index: 2;
 `;

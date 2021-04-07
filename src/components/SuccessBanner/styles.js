@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { theme } from "../../constants/constants";
 export const Container = styled.div`
   position: fixed;
   display: flex;
@@ -19,9 +19,26 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     width: 320px;
     height: 200px;
     background: white;
     border-radius: 10px;
+    .loader {
+      border: 3px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 3px solid ${theme.colors.primary};
+      width: 35px;
+      height: 35px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
 `;

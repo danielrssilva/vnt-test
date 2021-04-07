@@ -1,42 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { CircleContainer } from "./styles";
+import { Container, CircleContainer, PlayerInfo } from "./styles";
 import { useDrop } from "react-dnd";
+import { getPlayerInitials } from "../../constants/constants";
 
 import PropTypes from "prop-types";
 
 const PlayerPosition = ({ id, addPlayer, removePlayer, currPlayer }) => {
-  const [name, setName] = useState(currPlayer.name);
-
+  const [renderInfo, setRenderInfo] = useState(false);
   useEffect(() => {
-    if (currPlayer.name) {
-      let name = currPlayer.name;
-      let rgx = new RegExp(/(\p{L}{1})\p{L}+/, "gu");
-      let initials = [...name?.matchAll(rgx)] || [];
-      initials = (
-        (initials.shift()?.[1] || "") + (initials.pop()?.[1] || "")
-      ).toUpperCase();
-      setName(initials);
+    if (currPlayer?.name) {
+      setName(getPlayerInitials(currPlayer.name));
     }
   }, [currPlayer]);
-
+  const [name, setName] = useState();
   const [player, setPlayer] = useState();
   const changeItem = (item) => {
     const player = {
       id: item.player_key,
       position: id,
       name: item.player_name,
+      nacionality: item.player_country,
       age: item.player_age,
     };
     addPlayer(player);
     setPlayer(player);
-    let name = player.name;
-    let rgx = new RegExp(/(\p{L}{1})\p{L}+/, "gu");
-    let initials = [...name?.matchAll(rgx)] || [];
-    initials = (
-      (initials.shift()?.[1] || "") + (initials.pop()?.[1] || "")
-    ).toUpperCase();
-    setName(initials);
+    setName(getPlayerInitials(player.name));
   };
+
   const [{ isOver }, drop] = useDrop({
     accept: "player",
     drop: (item) => changeItem(item),
@@ -44,32 +34,60 @@ const PlayerPosition = ({ id, addPlayer, removePlayer, currPlayer }) => {
       isOver: !!monitor.isOver(),
     }),
   });
+
   const handleClick = (e) => {
     if (player || currPlayer) {
       removePlayer(player || currPlayer);
       e.preventDefault();
+      setPlayer();
       setName();
     }
   };
 
   return (
-    <CircleContainer
-      key={`${id}`}
-      ref={drop}
-      hasName={name ? true : false}
-      onDoubleClick={(e) => handleClick(e)}
-      onContextMenu={(e) => handleClick(e)}
-      title={name || "Drop a player to add to this position"}
-      id={`${id}`}
+    <Container
+      onMouseEnter={() => setRenderInfo(true)}
+      onMouseLeave={() => setRenderInfo(false)}
     >
-      <span
-        style={{
-          boxShadow: isOver ? "0 0 10px 0 #552C8A" : "",
-        }}
+      <CircleContainer
+        key={`${id}`}
+        ref={drop}
+        hasName={currPlayer?.name || player ? true : false}
+        onDoubleClick={(e) => handleClick(e)}
+        onContextMenu={(e) => handleClick(e)}
+        onMouseEnter={() => setRenderInfo(true)}
+        onMouseLeave={() => setRenderInfo(false)}
+        isOver={isOver}
+        id={`${id}`}
       >
-        {name || "+"}
-      </span>
-    </CircleContainer>
+        <span>{currPlayer?.name || player ? name : "+"}</span>
+      </CircleContainer>
+      {renderInfo && (
+        <PlayerInfo hasPlayer={currPlayer?.name || player}>
+          {currPlayer?.name || player ? (
+            <div>
+              <p>
+                <span className="player-name">
+                  {currPlayer?.name || player?.name}
+                </span>
+              </p>
+              <div>
+                <p>
+                  <span>Nacionality: </span>
+                  {currPlayer?.nacionality || player?.nacionality}
+                </p>
+                <p>
+                  <span>Age: </span>
+                  {currPlayer?.age || player?.age}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <span>Drop a player to add to this position</span>
+          )}
+        </PlayerInfo>
+      )}
+    </Container>
   );
 };
 

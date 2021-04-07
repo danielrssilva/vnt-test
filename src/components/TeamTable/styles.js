@@ -6,6 +6,7 @@ export const Table = styled.table`
   font-weight: 500;
   padding: 1rem 0.5rem;
   th {
+    position: relative;
     text-align: left;
     height: 3rem;
     padding-left: 2rem;
@@ -29,18 +30,55 @@ export const Table = styled.table`
       color: #b13f7d;
       background: #f7eef7;
     }
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      display: inline-block;
+      width: 0;
+      height: 0;
+      right: 15px;
+    }
+    &:before {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+
+      border-top: 5px solid #555759;
+      border-bottom: 5px solid transparent;
+      top: 28px;
+    }
+    &:after {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+
+      border-bottom: 5px solid #555759;
+      border-top: 5px solid transparent;
+      top: 13px;
+    }
+    &.ascending {
+      &:before {
+        border-top: 5px solid #555759;
+        border-bottom: 5px solid transparent;
+      }
+      &:after {
+        border-bottom: 5px solid transparent;
+        border-top: 5px solid transparent;
+      }
+    }
+    &.descending {
+      &:before {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+      &:after {
+        border-bottom: 5px solid #555759;
+        border-top: 5px solid transparent;
+      }
+    }
   }
   tr.team-row {
     transition: 0.2s all;
     border: 0;
-    button {
-      display: none;
-      height: 1.1rem;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: #b13f7d;
-    }
     &:hover {
       color: #b13f7d;
       background: #f7eef7;
@@ -66,4 +104,16 @@ export const Table = styled.table`
 export const DescriptionRow = styled.div`
   display: flex;
   justify-content: space-between;
+  button {
+    display: none;
+    height: 1.1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #b13f7d;
+    &.disabled {
+      color: gray;
+      cursor: not-allowed;
+    }
+  }
 `;

@@ -2,6 +2,10 @@ function isValidString(str) {
   if (str && str?.length > 0 && str !== undefined) return true;
   return false;
 }
+function isJustSpace(str) {
+  if (str && str === " ") return true;
+  return false;
+}
 function isValidWebsite(str) {
   if (!str) return false;
   var res = str?.match(
@@ -10,11 +14,11 @@ function isValidWebsite(str) {
   return res !== null;
 }
 
-export const validateFormFields = ({ name, website, description, type }) => {
+export const validateFormFields = ({ name, website, type }) => {
   let errors = [];
   if (!isValidString(name)) errors.push("name-div");
+  if (isJustSpace(name)) errors.push("name-div");
   if (!isValidWebsite(website)) errors.push("website-div");
-  if (!isValidString(description)) errors.push("description-div");
   if (!isValidString(type)) errors.push("type-div");
   return errors;
 };

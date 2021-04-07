@@ -3,9 +3,10 @@ import { Container } from "./styles";
 
 const SuccessBanner = () => {
   return (
-    <Container>
+    <Container data-testid="modal-success">
       <div>
         <p>Saving changes...</p>
+        <div className="loader"></div>
       </div>
     </Container>
   );

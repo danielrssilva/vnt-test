@@ -6,12 +6,15 @@ export const CardContainer = styled.div`
   box-shadow: 0 0 2px 0 ${theme.colors.border};
   border-radius: 10px;
   flex: 1;
-  margin: 0 2rem 2rem 2rem;
+  margin: 4em;
   .inner-card {
     display: flex;
     justify-content: space-evenly;
     align-items: space-evenly;
     flex-wrap: wrap;
+  }
+  @media (max-width: 695px) {
+    margin: 1em;
   }
 `;
 

@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [teams, setTeams] = useState(JSON.parse(getTeams()) || []);
   const handleDeleteTeam = (id) => {
     removeTeam(id);
+    window.location.reload(false);
     setTeams(JSON.parse(getTeams()));
   };
   return (

@@ -15,39 +15,27 @@ export const theme = {
 };
 
 export const formations = [
+  "3 - 2 - 2 - 3",
+  "3 - 2 - 3 - 1",
   "3 - 4 - 3",
-  "4 - 1 - 3 - 2",
-  "4 - 2 - 3 - 1",
-  "4 - 2 - 4",
-  "4 - 3 - 2 - 1",
-  "5 - 3 - 2",
-];
-
-export const teams = [
-  { id: 0, name: "Barcelona", description: "Barcelona Squad" },
-  { id: 1, name: "Real Madrid", description: "Real Madrid Squad" },
-  { id: 2, name: "Milan", description: "Squad Milan" },
-  { id: 3, name: "Liverpool", description: "Liverpool Squad" },
-  {
-    id: 4,
-    name: "Bayern Munich",
-    description: "Bayern Munich Squad",
-  },
-  { id: 5, name: "Lazio", description: "Lazio Squad" },
-];
-export const highestTeams = [
-  { id: 0, name: "Inter Milan", avg: "31.9" },
-  { id: 1, name: "APOEL Nicosia", avg: "31.7" },
-  { id: 2, name: "AC Milan", avg: "31.6" },
-  { id: 3, name: "Besiktas JK", avg: "31.4" },
-  { id: 4, name: "Olumpiacos Piraeus", avg: "31.3" },
-];
-export const lowestTeams = [
-  { id: 0, name: "Zalgiris Vilnius", avg: "21.1" },
-  { id: 1, name: "Arsenal FC", avg: "21.6" },
-  { id: 2, name: "Ajax Amsterdam", avg: "22.0" },
-  { id: 3, name: "FC Nantes", avg: "22.1" },
-  { id: 4, name: "CSKA Moskow", avg: "22.5" },
+  "3 - 5 - 2",
+  "4 - 3 - 1 - 1",
+  "4 - 3 - 2",
+  "4 - 4 - 2",
+  "4 - 5 - 1",
+  "5 - 4 - 1",
 ];
 
 export const teamInitializer = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+
+export const getPlayerInitials = (name) => {
+  if (name) {
+    let rgx = new RegExp(/(\p{L}{1})\p{L}+/, "gu");
+    let initials = [...name?.matchAll(rgx)] || [];
+    initials = (
+      (initials.shift()?.[1] || "") + (initials.pop()?.[1] || "")
+    ).toUpperCase();
+    return initials;
+  }
+  return;
+};
