@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Table, DescriptionRow } from "./styles";
+import { Table, DescriptionRow, ButtonTooltip } from "./styles";
 import { Link } from "react-router-dom";
 
 import { IoMdTrash, IoMdShare } from "react-icons/io";
@@ -71,25 +71,40 @@ const TeamTable = ({ teams, handleDeleteTeam }) => {
                 <td>
                   <DescriptionRow>
                     <div>{item.description}</div>
-                    <div>
-                      <button onClick={() => handleDeleteTeam(item.id)}>
-                        <IoMdTrash />
-                      </button>
-                      <button className="disabled" disabled>
-                        <IoMdShare />
-                      </button>
-                      <Link
-                        to={{
-                          pathname: "/team",
-                          teamProps: {
-                            ...item,
-                          },
-                        }}
-                      >
-                        <button>
-                          <MdEdit />
+                    <div className="buttons-row">
+                      <div>
+                        <button onClick={() => handleDeleteTeam(item.id)}>
+                          <IoMdTrash />
+                          <ButtonTooltip className="tooltip">
+                            Delete
+                          </ButtonTooltip>
                         </button>
-                      </Link>
+                      </div>
+                      <div>
+                        <button className="disabled" disabled>
+                          <IoMdShare />
+                          <ButtonTooltip className="tooltip">
+                            Share
+                          </ButtonTooltip>
+                        </button>
+                      </div>
+                      <div>
+                        <Link
+                          to={{
+                            pathname: "/team",
+                            teamProps: {
+                              ...item,
+                            },
+                          }}
+                        >
+                          <button>
+                            <MdEdit />
+                            <ButtonTooltip className="tooltip">
+                              Edit
+                            </ButtonTooltip>
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </DescriptionRow>
                 </td>

@@ -102,8 +102,16 @@ export const Table = styled.table`
 `;
 
 export const DescriptionRow = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
+  .buttons-row {
+    display: flex;
+    justify-content: space-between;
+    > div {
+      position: relative;
+    }
+  }
   button {
     display: none;
     height: 1.1rem;
@@ -115,5 +123,50 @@ export const DescriptionRow = styled.div`
       color: gray;
       cursor: not-allowed;
     }
+    &:hover {
+      .tooltip {
+        visibility: visible;
+      }
+    }
+  }
+`;
+
+export const ButtonTooltip = styled.div`
+  visibility: hidden;
+  position: absolute;
+  z-index: 2;
+  left: -23px;
+  background-color: #262626;
+  color: white;
+  padding: 5px 1rem;
+  border-radius: 3px;
+  top: -30px;
+  animation: fadeIn 0.3s;
+
+  :before {
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 15px;
+    width: 13px;
+    height: 13px;
+    background-color: #262626;
+    transform: rotate(45deg);
+    border-radius: 1px;
+    z-index: -1;
+  }
+  span {
+    font-weight: 500;
+    &.player-name {
+      font-weight: 900;
+    }
+  }
+  p {
+    font-weight: 100;
+    margin: 5px;
+  }
+  div div {
+    display: flex;
+    justify-content: space-between;
   }
 `;
