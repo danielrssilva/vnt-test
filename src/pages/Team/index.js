@@ -40,7 +40,6 @@ const Team = ({ location }) => {
     }
     loadPlayers();
     async function loadTeam() {
-      console.log(teamProps);
       if (teamProps?.players) {
         setTeam({
           tags: [],
@@ -101,7 +100,6 @@ const Team = ({ location }) => {
     for (let i = 0; i < players.length; i++) {
       cards[i].style.display = "inline-block";
     }
-    console.log(newTeam);
     if (teamProps?.formation)
       teamProps.players = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     setTeam(newTeam);
@@ -117,7 +115,6 @@ const Team = ({ location }) => {
     return "_" + Math.random().toString(36).substr(2, 9);
   };
   const handleSubmit = () => {
-    console.log(team, teamProps);
     let newTeam = {};
     if (teamProps?.players) newTeam = team;
     else newTeam = { ...team, id: ID() };
@@ -142,7 +139,6 @@ const Team = ({ location }) => {
       return;
     }
 
-    console.log(newTeam);
     if (teamProps?.players) opdateTeam(newTeam);
     else addTeam(newTeam);
 
