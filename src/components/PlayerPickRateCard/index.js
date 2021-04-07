@@ -16,7 +16,6 @@ const PlayerPickRateCard = () => {
         index ===
         self.findIndex((t) => t.id === player.id && t.name === player.name)
     );
-    console.log(uniqueItems);
     uniqueItems.forEach((currentPlayer) => {
       const numItems = players.filter(
         (player) => player.id === currentPlayer.id
@@ -34,12 +33,6 @@ const PlayerPickRateCard = () => {
           name: currentPlayer.name,
           percentage,
         });
-      console.log({
-        name: currentPlayer.name,
-        percentage: parseFloat(
-          ((numItems.length * 100) / totalItems).toFixed(1)
-        ),
-      });
     });
   };
 
