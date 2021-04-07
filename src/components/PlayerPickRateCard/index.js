@@ -46,9 +46,8 @@ const PlayerPickRateCard = () => {
   useEffect(() => {
     let teams = JSON.parse(getTeams());
     let players = [];
-    teams?.filter((team) => {
-      console.log(team);
-      team.players.map((player) => {
+    teams?.forEach((team) => {
+      team.players.forEach((player) => {
         if (player.id) players.push(player);
       });
     });

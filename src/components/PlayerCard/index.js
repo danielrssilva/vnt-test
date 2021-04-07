@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "./styles";
 import { useDrag } from "react-dnd";
 
-const PlayerCard = ({ player, shouldDisplay }) => {
+const PlayerCard = ({ player }) => {
   const [collected, drag, dragPreview] = useDrag(() => ({
     type: "player",
     item: player,

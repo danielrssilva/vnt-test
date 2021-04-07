@@ -1,6 +1,4 @@
 export const TEAMS = "@vnt-test/teams";
-export const HIGHEST_PICK = "@vnt-test/highestPick";
-export const LOWEST_PICK = "@vnt-test/lowestPick";
 
 export const addTeam = (team) => {
   if (!getTeams()) localStorage.setItem(TEAMS, "[]");
@@ -26,19 +24,4 @@ export const removeTeam = (id) => {
 
 export const getTeams = () => {
   return localStorage.getItem(TEAMS);
-};
-
-//HIGHEST
-export const setHighestPick = (pick) => {
-  return localStorage.setItem(HIGHEST_PICK, pick);
-};
-export const getHighestPick = () => {
-  return localStorage.getItem(HIGHEST_PICK);
-};
-//LOWEST
-export const setLowestPick = (pick) => {
-  return localStorage.setItem(LOWEST_PICK, pick);
-};
-export const getLowestPick = () => {
-  return localStorage.getItem(LOWEST_PICK);
 };

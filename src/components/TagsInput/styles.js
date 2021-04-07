@@ -19,7 +19,7 @@ export const Container = styled.div`
     width: 100%;
   }
 
-  .input-tag__tags {
+  .tags {
     display: flex;
     flex-wrap: wrap;
     margin: 0;
@@ -27,7 +27,7 @@ export const Container = styled.div`
     width: 100%;
   }
 
-  .input-tag__tags div {
+  .tags div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,22 +41,20 @@ export const Container = styled.div`
     margin: 0 5px 5px 0;
   }
 
-  .input-tag__tags div button {
+  .tags div button {
     align-items: center;
-    /* width: 15px; */
     background: none;
     border: none;
     border-radius: 50%;
     color: white;
     cursor: pointer;
     display: inline-flex;
-    /* font-size: 12px; */
     justify-content: center;
     line-height: 0;
     margin: 2px -8px 0 0;
   }
 
-  .input-tag__tags div.input-tag__tags__input {
+  .tags div.tag-input {
     background: none;
     flex-grow: 1;
   }

@@ -66,7 +66,6 @@ export const PlayerInfo = styled.div`
   border-radius: 5px;
   animation: fadeIn 0.3s;
   border: 2px solid ${theme.colors.tertiary};
-  /* border: 2px solid ${theme.colors.primary}; */
 
   :before {
     content: "";

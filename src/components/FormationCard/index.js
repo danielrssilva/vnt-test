@@ -3,7 +3,6 @@ import { Container, Row } from "./styles";
 import PlayerPosition from "../PlayerPosition";
 
 const FormationCard = ({ formation, addPlayer, removePlayer, players }) => {
-
   let playerId = 0;
   const renderRows = () => {
     let formationArray = formation.split("-").map((e) => {
@@ -30,11 +29,7 @@ const FormationCard = ({ formation, addPlayer, removePlayer, players }) => {
       }
       rows.push(<Row key={`${e}-${playerId}`}>{row}</Row>);
     });
-    return rows;
-  };
-  return (
-    <Container>
-      {renderRows()}
+    rows.push(
       <Row>
         <PlayerPosition
           id={0}
@@ -43,6 +38,12 @@ const FormationCard = ({ formation, addPlayer, removePlayer, players }) => {
           currPlayer={(players && players[0]) || {}}
         />
       </Row>
+    );
+    return rows;
+  };
+  return (
+    <Container>
+      {renderRows()}
       <div className="divider" />
       <div className="divider-circle" />
     </Container>

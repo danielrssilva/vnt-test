@@ -8,11 +8,13 @@ const TeamAverageCard = ({ title, teams }) => {
   useEffect(() => {
     if (title === "Highest avg age") {
       teams.forEach(({ avg }) => {
-        if (parseFloat(avg) > highestAvg) setHighestAvg(avg);
+        if (parseFloat(avg) > parseFloat(highestAvg))
+          setHighestAvg(parseFloat(avg));
       });
     } else {
       teams.forEach(({ avg }) => {
-        if (parseFloat(avg) < lowestAvg) setLowestAvg(avg);
+        if (parseFloat(avg) < parseFloat(lowestAvg))
+          setLowestAvg(parseFloat(avg));
       });
     }
   });
@@ -33,7 +35,10 @@ const TeamAverageCard = ({ title, teams }) => {
             >
               <TeamRow
                 key={team.id}
-                highlight={team.avg == lowestAvg || team.avg == highestAvg}
+                highlight={
+                  parseFloat(team.avg) === lowestAvg ||
+                  parseFloat(team.avg) === highestAvg
+                }
               >
                 <div>{team.name}</div>
                 <div className="team-avg">{team.avg}</div>

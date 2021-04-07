@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import { Container } from "./styles";
 
@@ -8,8 +8,8 @@ const InputTag = ({ teamTags, updateTeamTags }) => {
   const [tags, setTags] = useState([]);
   const [value, setValue] = useState("");
 
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
   useEffect(() => {
     if (teamTags) setTags(teamTags);
   }, [teamTags]);
@@ -43,7 +43,7 @@ const InputTag = ({ teamTags, updateTeamTags }) => {
   return (
     <Container>
       <div className="input-tag">
-        <div className="input-tag__tags">
+        <div className="tags">
           {tags.map((tag, i) => (
             <div key={tag}>
               <span>{tag}</span>
@@ -57,7 +57,7 @@ const InputTag = ({ teamTags, updateTeamTags }) => {
               </button>
             </div>
           ))}
-          <div className="input-tag__tags__input">
+          <div className="tag-input">
             <input
               type="text"
               onKeyDown={(e) => inputKeyDown(e)}
