@@ -15,7 +15,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 const Team = ({ location }) => {
   const teamProps = location?.teamProps;
-  const [a, setA] = useState(true);
   const history = useHistory();
   const [team, setTeam] = useState({
     tags: [],
@@ -90,9 +89,6 @@ const Team = ({ location }) => {
     setTeamPlayers([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
     handleChange(value, { name });
     setFormation(value);
-    setA(false);
-    // setA(true);
-    setTimeout(() => setA(true), 0.01);
   };
 
   const inputKeyDown = ({ key }) => {
@@ -326,14 +322,12 @@ const Team = ({ location }) => {
                         })}
                       </Select>
                     </label>
-                    {a && (
-                      <FormationCard
-                        formation={formation}
-                        players={teamProps?.players ? teamPlayers : []}
-                        addPlayer={addPlayer}
-                        removePlayer={removePlayer}
-                      />
-                    )}
+                    <FormationCard
+                      formation={formation}
+                      players={teamProps?.players ? teamPlayers : []}
+                      addPlayer={addPlayer}
+                      removePlayer={removePlayer}
+                    />
                     <button
                       onClick={() => handleSubmit()}
                       data-testid="button-submit"
