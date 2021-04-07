@@ -15,6 +15,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 const Team = ({ location }) => {
   const teamProps = location?.teamProps;
+
   const history = useHistory();
   const [team, setTeam] = useState({
     tags: [],
@@ -39,6 +40,7 @@ const Team = ({ location }) => {
     }
     loadPlayers();
     async function loadTeam() {
+      console.log(teamProps);
       if (teamProps?.players) {
         setTeam({
           tags: [],
@@ -93,14 +95,15 @@ const Team = ({ location }) => {
   };
 
   const handleFormationChange = (value, { name }) => {
-    const newTeam = {
-      ...team,
-      players: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-    };
+    const newTeam = team;
+    newTeam.players = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     let cards = document.getElementsByClassName("player-card");
     for (let i = 0; i < players.length; i++) {
       cards[i].style.display = "inline-block";
     }
+    console.log(newTeam);
+    if (teamProps?.formation)
+      teamProps.players = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     setTeam(newTeam);
     setTeamPlayers([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
     handleChange(value, { name });
@@ -114,8 +117,9 @@ const Team = ({ location }) => {
     return "_" + Math.random().toString(36).substr(2, 9);
   };
   const handleSubmit = () => {
+    console.log(team, teamProps);
     let newTeam = {};
-    if (teamProps?.players) newTeam = { ...teamProps, ...team };
+    if (teamProps?.players) newTeam = team;
     else newTeam = { ...team, id: ID() };
     let sum = 0;
     let playerCount = 0;
@@ -138,6 +142,7 @@ const Team = ({ location }) => {
       return;
     }
 
+    console.log(newTeam);
     if (teamProps?.players) opdateTeam(newTeam);
     else addTeam(newTeam);
 
