@@ -3,7 +3,7 @@
 
 ### Prerequisites
 
-You should have [Node.js](https://nodejs.org/en) or [Yarn](https://yarnpkg.com) installed
+You should have [Node.js](https://nodejs.org/en) or [Yarn](https://yarnpkg.com) installed.
 
 ### Installation
 
